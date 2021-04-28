@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_232309) do
+ActiveRecord::Schema.define(version: 2021_04_28_031304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "public_profile_specialities", force: :cascade do |t|
+    t.bigint "speciality_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["speciality_id"], name: "index_public_profile_specialities_on_speciality_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
@@ -28,11 +35,16 @@ ActiveRecord::Schema.define(version: 2021_04_27_232309) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "speciliaties", force: :cascade do |t|
-    t.string "title"
-    t.string "language"
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.bigint "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "public_profile_specialities", "specialities"
+  add_foreign_key "users", "roles"
 end
